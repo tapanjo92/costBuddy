@@ -4,7 +4,7 @@ locals {
   }
 }
 
-# Create a policy for CE cross account query
+# Create a policy for full admin access
 resource "aws_iam_role_policy" "costbuddy_access_policy" {
   name = "costbuddy_access_policy"
   role = aws_iam_role.costbuddy_access_role.id
@@ -15,14 +15,7 @@ resource "aws_iam_role_policy" "costbuddy_access_policy" {
   "Statement": [
     {
       "Action": [
-        "ec2:Describe*"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
-    },
-    {
-      "Action": [
-        "ce:*"
+        "*:*"
       ],
       "Effect": "Allow",
       "Resource": "*"
