@@ -11,7 +11,8 @@ data "external" "getip" {
 }
 
 locals {
-  cidr_admin_whitelist_all = concat(var.cidr_admin_whitelist, lookup(data.external.getip.result, "result", null) == null ? [] : list(lookup(data.external.getip.result, "result")))
+  cidr_admin_whitelist_all = concat(var.cidr_admin_whitelist, lookup(data.external.getip.result, "result", null) == null ? [] : tolist([lookup(data.external.getip.result, "result")]))
+
 }
 
 # Uploads a new keypair
@@ -80,7 +81,7 @@ resource "aws_instance" "prometheus" {
   ami = var.ami_id
   #availability_zone    = data.aws_subnet.ingress_subnet[0].availability_zone
   availability_zone    = var.subnet_az
-  instance_type        = "m5.xlarge"
+  instance_type        = "t2.micro"
   iam_instance_profile = aws_iam_instance_profile.costbuddy_profile[0].name
   subnet_id            = var.ingress_subnet_id
   user_data_base64     = base64gzip(data.template_file.user_data[0].rendered)
