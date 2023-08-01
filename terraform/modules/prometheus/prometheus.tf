@@ -11,7 +11,7 @@ data "external" "getip" {
 }
 
 locals {
-  cidr_admin_whitelist_all = concat(var.cidr_admin_whitelist, lookup(data.external.getip.result, "result", null) == null ? [] : list(lookup(data.external.getip.result, "result")))
+  cidr_admin_whitelist_all = concat(var.cidr_admin_whitelist, lookup(data.external.getip.result, "result", null) == null ? [] : tolist([lookup(data.external.getip.result, "result")]))
 }
 
 # Uploads a new keypair
